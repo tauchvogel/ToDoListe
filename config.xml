@@ -1,0 +1,12 @@
+<?xml version ="1.0" encoding=utf-8" ?>
+<widget xmlns = "http://www.w3.org/ns/widgets"
+xmlns:gap = "http://phonegap.com/ns/1.0"
+id = "com.html5rockt.ToDoListe"
+versionCode = "10"
+version = "1.0.0" >
+
+<name>ToDoListe</name>
+<description>Eine ToDoListe, mit der man Aufgaben verwalten kann.</description>
+<author email="martinstockffm@gmail.com">Martin Stock</author>
+<gap:plugin name="org.apache.cordova.device" version="0.2.12" />
+</widget>
