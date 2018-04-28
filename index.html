@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <title>Offline Todo</title>
+    <meta charset="utf-8">
+    <html manifest="cache.manifest2">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+      body {
+        background: #eee;
+      }
+      .input-group {
+        margin-bottom: 10px;
+      }
+      .list-todo > .list-group-item {
+        background: #fff;
+      }
+      .list-todo > .list-group-item:hover {
+        background: #fefef7;
+      }
+      .list-todo > .list-group-item > label {
+        display: inline-block;
+        padding: 10px 15px;
+        margin: -10px 5px -10px -15px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-static-top navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Todo Liste</a>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 col-sm-6">
+          <form id="add">
+            <div class="input-group">
+              <input type="text" class="form-control" id="add-task" placeholder="Neue Aufgabe ...">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="submit">+</button>
+              </span>
+            </div>
+          </form>
+          <ul class="list-group list-todo" id="todo-liste">
+          </ul>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <div class="well" id="statistics"></div>
+        </div>
+      </div>
+    </div>
+    <script>
+      var todoList = document.querySelector('#todo-liste');
+      
+      var addTask = function(todo){
+        var checkboxElement = document.createElement('input');
+        var labelElement = document.createElement('label');
+        var listItemElement = document.createElement('li');
+        
+        checkboxElement.setAttribute('id', todo.id);
+        checkboxElement.setAttribute('type','checkbox');
+        listItemElement.classList.add('list-group-item');
+        
+        labelElement.appendChild(checkboxElement);
+        listItemElement.appendChild(labelElement);
+        listItemElement.insertAdjacentHTML('beforeend',todo.name);
+        todoList.appendChild(listItemElement);
+        
+        checkboxElement.addEventListener('change',function(){
+          if(this.checked){
+            changeTaskState(todo,'done');
+          }
+        });
+      };
+      
+      var changeTaskState = function(todo, state){
+        taskElement = document.querySelector('#'+todo.id).parentNode.parentNode;
+        taskElement.classList.add(state);
+        if(state == 'done'){
+          taskElement.parentNode.removeChild(taskElement);
+        }
+        if(document.querySelectorAll('#todo-liste li').length == 0) {
+          document.querySelector('#allDone').classList.remove('hidden');
+        }
+      };
+      
+      document.querySelector('#add').addEventListener('submit',function(e){
+        e.preventDefault();
+        taskName = document.querySelector('#add-task').value;
+        if(taskName != '') {
+          var todo = {
+            id: "todo-"+Date.now(),
+            name: taskName
+          };
+          addTask(todo);          
+        }
+        document.querySelector('#add-task').value = '';
+      });
+    </script>
+  </body>
+</html>
