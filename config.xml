@@ -7,5 +7,5 @@ version = "1.0.0" >
 <name>ToDoListe</name>
 <description>Eine ToDoListe, mit der man Aufgaben verwalten kann.</description>
 <author email="martinstockffm@gmail.com">Martin Stock</author>
-<plugin name="org.apache.cordova.device" spec="0.2.3" source="pgb" />
+<plugin name="org.apache.cordova.device" version="0.2.12" />
 </widget>
