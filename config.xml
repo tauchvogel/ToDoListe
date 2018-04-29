@@ -3,6 +3,10 @@
 id = "com.html5rockt.ToDoListe"
 versionCode = "10"
 version = "1.0.1" >
+  
+  <platform name="android">
+              <icon src="res/android/ldpi.png" density="ldpi" />
+  </platform>
 
 <name>ToDoListe</name>
 <description>Eine ToDoListe, mit der man Aufgaben verwalten kann.</description>
