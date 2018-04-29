@@ -5,7 +5,7 @@ versionCode = "10"
 version = "1.0.1" >
   
   <platform name="android">
-              <icon src="res/android/ldpi.png" density="ldpi" />
+              <icon src="icons/ic_launcher.png" density="mdpi" />
   </platform>
 
 <name>ToDoListe</name>
