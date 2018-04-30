@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="de">
   <head>
-    <title>Offline Todo</title>
+    <title>ToDo Liste</title>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <html manifest="cache.manifest2">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <style>
@@ -44,6 +47,12 @@
               </span>
             </div>
           </form>
+          <div class="alert alert-info" role="alert" id="emptyList">
+            Legen Sie ihre erste Aufgabe an.
+          </div>
+          <div class="alert alert-success hidden" role="alert" id="allDone">
+            Woohoo! Alles erledigt!
+          </div>
           <ul class="list-group list-todo" id="todo-liste">
           </ul>
         </div>
@@ -54,6 +63,15 @@
     </div>
     <script>
       var todoList = document.querySelector('#todo-liste');
+      
+      var createTask = function(taskName) {
+        var todo = {
+          id: "todo-"+Date.now(),
+          name: taskName
+        };
+        localStorage.setItem(todo.id, todo.name);
+        addTask(todo);
+      };
       
       var addTask = function(todo){
         var checkboxElement = document.createElement('input');
@@ -74,31 +92,42 @@
             changeTaskState(todo,'done');
           }
         });
+        document.querySelector('#emptyList').classList.add('hidden');
+        document.querySelector('#allDone').classList.add('hidden');
+        document.querySelector('#statistics').innerHTML = 'Noch ' + localStorage.length + ' Aufgaben auf der Liste.';
       };
       
       var changeTaskState = function(todo, state){
         taskElement = document.querySelector('#'+todo.id).parentNode.parentNode;
         taskElement.classList.add(state);
         if(state == 'done'){
+          localStorage.removeItem(todo.id);
           taskElement.parentNode.removeChild(taskElement);
         }
         if(document.querySelectorAll('#todo-liste li').length == 0) {
           document.querySelector('#allDone').classList.remove('hidden');
         }
+        document.querySelector('#statistics').innerHTML = 'Noch ' + localStorage.length + ' Aufgaben auf der Liste.';
       };
       
       document.querySelector('#add').addEventListener('submit',function(e){
         e.preventDefault();
         taskName = document.querySelector('#add-task').value;
         if(taskName != '') {
-          var todo = {
-            id: "todo-"+Date.now(),
-            name: taskName
-          };
-          addTask(todo);          
+          createTask(taskName);          
         }
         document.querySelector('#add-task').value = '';
       });
+      
+      if(localStorage.length > 0) {
+        for(id in localStorage) {
+          todo = {
+            id: id,
+            name: localStorage[id]
+          }
+          addTask(todo);
+        }
+      }
     </script>
   </body>
 </html>
